@@ -43,9 +43,22 @@ document.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
 
     let newItem = addInput.value;
-    const favourite = checkbox.checked;
-    news.push(newItem);
-    sortArr(news);
+    const favourite = addCheckbox.checked;
+    console.log(favourite);
+
+    if (newItem) {
+      if (newItem.length > 21) {
+        newItem = `${newItem.substring(0, 21)}...`;
+      }
+      if (favourite) {
+        console.log("Menga bu news yoqdi");
+      }
+      news.push(newItem);
+      sortArr(news);
+      addNewsList(news, newsList);
+    }
+
+    event.target.reset();
   });
 
   btnNews.remove();
@@ -68,7 +81,15 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="delete"></div>
       </li>`;
     });
-    document.querySelector(".delete");
+    document.querySelectorAll(".delete").forEach((btn, i) => {
+      btn.addEventListener("click", () => {
+        btn.parentElement.remove();
+        news.splice(i, 1);
+
+        addNewsList(newsAdd, parent);
+      });
+    });
   }
+
   addNewsList(news, newsList);
 });
